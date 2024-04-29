@@ -27,11 +27,32 @@ func main() {
 	scanner := bufio.NewScanner(resp.Body)
 
 	var htmlContent []string
+	var isFilter bool
+	var queryContent []string
+	var readNext bool
+
+	if len(os.Args) >= 3 {
+		queryContent = os.Args[2:len(os.Args)]
+		readNext = false
+		isFilter = true
+	} else {
+		isFilter = false
+		readNext = true
+	}
+
+	log.Println("Filtering is ", isFilter)
+	log.Printf("Filtering keywords of %v \n", queryContent)
 
 	for scanner.Scan() {
 		var line = scanner.Text()
-		if strings.Contains(line, "magnet") {
-			htmlContent = append(htmlContent, line)
+		if readNext == false && isExtract(&queryContent, line) {
+			readNext = true
+		}
+		if readNext == true && strings.Contains(line, "magnet") {
+			if isFilter {
+				readNext = false
+			}
+			htmlContent = append(htmlContent, strings.TrimSpace(line))
 		}
 	}
 
@@ -43,6 +64,15 @@ func main() {
 	ExportToFile(&htmlContent)
 
 	log.Println("Application has terminated")
+}
+
+func isExtract(queries *[]string, line string) bool {
+	for _, query := range *queries {
+		if strings.Contains(line, query) {
+			return true
+		}
+	}
+	return false
 }
 
 func ExportToFile(content *[]string) {
