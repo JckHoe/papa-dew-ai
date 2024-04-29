@@ -68,11 +68,11 @@ func main() {
 
 func isExtract(queries *[]string, line string) bool {
 	for _, query := range *queries {
-		if strings.Contains(line, query) {
-			return true
+		if !strings.Contains(line, query) {
+			return false
 		}
 	}
-	return false
+	return true
 }
 
 func ExportToFile(content *[]string) {
