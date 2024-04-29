@@ -30,11 +30,12 @@ go run main.go https://example.com example
 
 ### Example Usage using compile binary of the program
 #### Building the application
+Ensure that `make` cli is installed
 ```bash
-go build -o output
+make build
 ```
-`output` will be the binary file name
+`papa-dew-ai` will be the binary file name under the `bin` directory
 #### Executing the program
 ```bash
-./output https://example.com example
+./bin/papa-dew-ai https://example.com example
 ```
