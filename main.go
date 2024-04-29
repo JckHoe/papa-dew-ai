@@ -15,3 +15,11 @@ func main() {
 
 	log.Println("Application has terminated")
 }
+
+func ExportToFile() {
+	logFile, err := os.Create("Output.txt")
+	if err != nil {
+		log.Fatalln("Failed to create")
+	}
+	defer logFile.Close()
+}

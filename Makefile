@@ -17,5 +17,7 @@ all: clean build
 
 build:
 	$(GO) build -o bin/$(APP) *.go
+test:
+	$(GO) test -count=1 ./... -v
 clean:
 	$(RM) -r bin
